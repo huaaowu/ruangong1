@@ -1,43 +1,38 @@
+from flask import Flask, request, jsonify, render_template, send_file
+from flask_cors import CORS
 import os
-import random
-from flask import Flask, request, jsonify
-from datetime import datetime
-from werkzeug.utils import secure_filename
 from gevent import pywsgi
-import glob
+from werkzeug.utils import secure_filename
 import numpy as np
 from PIL import Image
 import scipy.io as io
 
-# 获取当前位置的绝对路径
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
+CORS(app)
 
 
-# 上传图片的接口
-@app.route("/upload", methods=["POST"])
+@app.route('/upload', methods=['POST'])
 def upload():
-    f = request.files.get("files")
-    # 获取安全的文件名
-    filename = secure_filename(f.filename)
-    print(filename, "------------")
-    # 生成随机数
-    random_num = random.randint(0, 100)
-    # 获取文件的后缀
-    filename = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + str(random_num) + "." + filename.rsplit('.', 1)[1]
-    # if not os.path.exists(filename):
-    #     os.makedirs(filename, 755)
-    file_path = basedir + "/static/file/" + filename
-    f.save(file_path)
-    # 返回前端可调用的一个链接
-    # 可以配置成对应的外网访问的链接
-    my_host = "http://127.0.0.1:8080"
-    new_path_file = my_host + "/static/file/" + filename
+    # 从请求中获取上传的文件
+    file = request.files['files']
+    if file is None:
+        return jsonify(error='文件未找到'), 400
 
-    data = {"msg": "success", "imageURL": new_path_file}
+    # 文件命名为：1.文件格式
+    newFilename = '1' + os.path.splitext(file.filename)[1]
 
-    payload = jsonify(data)
+    # 保存文件到指定目录
+    uploadPath = './static/file'  # 文件储的目录
+    if not os.path.exists(uploadPath):
+        os.makedirs(uploadPath)
+    newFilePath = os.path.join(uploadPath, newFilename)
 
+    # 保存文件
+    file.save(newFilePath)
+
+    file_path = basedir + "/static/file/" + newFilename
+    # jpg转为mat
     save_dir = basedir + "/static/file/"
     print('Start...')
     img = Image.open(file_path)
@@ -46,21 +41,26 @@ def upload():
     print('Saving data...')
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
-    np.save(save_dir + 'origin.npy', res)
+    np.save(save_dir + 'test1.npy', res)
     print('Done.')
 
-    numpy_file = np.load(save_dir+'/origin.npy')
+    numpy_file = np.load(save_dir + '/test1.npy')
 
-    io.savemat('origin.mat', {'data': numpy_file})
+    io.savemat('test1.mat', {'data': numpy_file})
 
-    return payload, 200
+    # 返回成功消息
+    return jsonify(message='文件上传成功，已更名为 {}'.format(newFilename)), 200
 
 
-#
-# @app.route("/change", method=["POST"])
-# def change():
-#     my_host = "http: // 127.0.0.1: 8080 / change"
-#     data = {"msg": "success", "imageURL": new_path_file}
+@app.route('/change', methods=['GET'])
+def change():
+    print("-----------dwq")
+    filename = basedir + '/static/file/1.jpg'  # 照片文件的路径
+
+    # 构造照片的URL地址，替换成你实际的访问路径
+    photo_url = f'http://127.0.0.1:8080/static/file/1.jpg'
+
+    return jsonify(photo_url)
 
 
 if __name__ == '__main__':
