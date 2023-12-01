@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS
 import os
 from gevent import pywsgi
+from matplotlib.image import imsave
+from scipy.io import loadmat
 from werkzeug.utils import secure_filename
 import numpy as np
 from PIL import Image
@@ -54,11 +56,22 @@ def upload():
 
 @app.route('/change', methods=['GET'])
 def change():
+
+    mat_file = basedir + '/test1.mat'  # 要转换的.mat文件路径
+
+    # 读取.mat文件
+    mat_data = io.loadmat(mat_file)
+
+    # 将.mat数据保存为图片
+    img_data = mat_data['data']  # 根据.mat文件中的数据结构进行调整
+    image = Image.fromarray(np.uint8(img_data))
+    image.save(basedir + '/static/file/test1.jpg')  # 保存为.jpg格式
+
     print("-----------dwq")
-    filename = basedir + '/static/file/1.jpg'  # 照片文件的路径
+    filename = basedir + '/test1.jpg'  # 照片文件的路径
 
     # 构造照片的URL地址，替换成你实际的访问路径
-    photo_url = f'http://127.0.0.1:8080/static/file/1.jpg'
+    photo_url = f'http://127.0.0.1:8080/static/file/test1.jpg'
 
     return jsonify(photo_url)
 
