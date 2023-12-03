@@ -1,12 +1,6 @@
 <template>
-  <section class="index_content">
-    <div class="content_header" style="clear: both; overflow: hidden;">
-      <div class="function_title">
-        <img src="./images/function_title_word.svg" alt="CleverPDF Word" style="margin-left:0;" />
-        <h1 style="margin-left:10px;" id="wtp_title">高光谱图像分析</h1>
-        <h2 class="function_title_promit" id="wtp_promit">2023软件工程作业</h2>
-      </div>
-    </div>
+  <Navbar></Navbar>
+   <section class="index_content">
     <div class="function_box" id="choosefile">
       <div class="function_choosefile" style="border-bottom: 0;">
         <input type="hidden" id="id" name="id" value="20170902001">
@@ -28,21 +22,25 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> 
   <!-- 显示分类之后的图片 -->
   <div  v-if="imageURL" class="container ">
     <img :src="imageURL" alt="分类结果" class="image" style="width:100%">
     <div class="middle">
       <div class="text"> <a :href="imageURL">下载图片</a></div>
     </div>
-
   </div>
 </template>
 
 <script>
+import Navbar from './components/Navbar.vue';
+
 import axios from 'axios';
 
 export default {
+  components :{
+    Navbar
+  },
   data() {
     return {
       showConversionButton: false,
@@ -63,7 +61,7 @@ export default {
         this.showConversionButton = true;
       }
     },
-    //上传文件
+    //上传文件                                                                    
     uploadFile(file) {
       const formData = new FormData();
       formData.append('files', file);
