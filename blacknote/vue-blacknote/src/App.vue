@@ -1,6 +1,7 @@
 <template>
+  <Demo></Demo>
   <Navbar></Navbar>
-   <section class="index_content">
+  <section v-if="!begincat" class="index_content">
     <div class="function_box" id="choosefile">
       <div class="function_choosefile" style="border-bottom: 0;">
         <input type="hidden" id="id" name="id" value="20170902001">
@@ -22,23 +23,31 @@
         </div>
       </div>
     </div>
-  </section> 
+  </section>
   <!-- 显示分类之后的图片 -->
-  <div  v-if="imageURL" class="container ">
-    <img :src="imageURL" alt="分类结果" class="image" style="width:100%">
-    <div class="middle">
-      <div class="text"> <a :href="imageURL">下载图片</a></div>
+  <div style="display: flex; flex-direction: row;" v-if="begincat">
+    <div class="container ">
+      <div class="text-style">原图</div>
+      <img :src="imageURLY" alt="原图" class="image" style="width:100%">
+    </div>
+    <div class="container ">
+      <div class="text-style">分类结果</div>
+      <img v-if="!imageURL" src="./images/loading2.gif" alt="正在加载中" class="image" style="width: 100%;">
+      <img v-else="imageURL" :src="imageURL" alt="分类结果" class="image" style="width:100%">
+      <div v-if="imageURL" class="middle">
+        <div class="text"> <a :href="imageURL">下载图片</a></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue';
-
+import Demo from './components/Demo.vue';
 import axios from 'axios';
 
 export default {
-  components :{
+  components: {
     Navbar
   },
   data() {
@@ -46,7 +55,9 @@ export default {
       showConversionButton: false,
       uploadedFile: null,
       imageURL: null,
-      ShowTitle :"开始分类",
+      ShowTitle: "开始分类",
+      imageURLY:null,
+      begincat :false,
     };
   },
   methods: {
@@ -57,8 +68,17 @@ export default {
         const fileName = file.name;
         const fileSize = file.size;
         console.log(`选择的文件: ${fileName}, 大小: ${fileSize} 字节`);
-        this.uploadFile(file);
-        this.showConversionButton = true;
+        // 使用FileReader读取文件
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const imageDataURL = e.target.result;
+          console.log('图像的 Data URL:', imageDataURL);
+          this.imageURLY = imageDataURL
+        };
+        // 以 Data URL 格式读取文件
+        reader.readAsDataURL(file);
+        this.showConversionButton = true
+        this.uploadFile();
       }
     },
     //上传文件                                                                    
@@ -70,7 +90,7 @@ export default {
         .then(response => {
           console.log('文件上传成功:', response.data);
           this.showConversionButton = true;
-          
+
         })
         .catch(error => {
           console.error('上传文件时发生错误:', error);
@@ -79,11 +99,13 @@ export default {
     },
     //点击分类，返回链接
     changeImage() {
+      this.begincat = true
       const url = 'http://127.0.0.1:8080/change';
       axios.get(url)
         .then(response => {
           this.imageURL = response.data
-          this.ShowTitle="分类完成"
+          this.ShowTitle = "分类完成"
+          
         })
         .catch(error => {
           console.error('加载图片时发生错误:', error);
