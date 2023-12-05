@@ -1,0 +1,2 @@
+success1.ipynb为模型函数，内含模型训练函数和模型预测函数  
+HybridSN2.pth为训练得到的权重文件
