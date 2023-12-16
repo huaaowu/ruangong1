@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 import numpy as np
 from PIL import Image
 import scipy.io as io
+from sucess2 import pred
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -59,19 +60,20 @@ def change():
 
     mat_file = basedir + '/test1.mat'  # 要转换的.mat文件路径
 
-    # 读取.mat文件
-    mat_data = io.loadmat(mat_file)
-
-    # 将.mat数据保存为图片
-    img_data = mat_data['data']  # 根据.mat文件中的数据结构进行调整
-    image = Image.fromarray(np.uint8(img_data))
-    image.save(basedir + '/static/file/test1.jpg')  # 保存为.jpg格式
+    X = io.loadmat('D:/Software/data/Indian_pines_corrected.mat')['indian_pines_corrected']
+    y = io.loadmat('D:/Software/data/Indian_pines_gt.mat')['indian_pines_gt']
+    # source1='/content/Indian_pines_corrected.mat.2'
+    # source2='/content/Indian_pines_gt.mat.2'
+    # result_path = 'content/' + ''.join(str(X).split('.')[:-1]) + '.png'
+    result_path = "D:/Software/data/static/file/Result2.png"
+    # result = test_map(source1,source2,result_path)
+    pred(X, y, result_path)
 
     print("-----------dwq")
-    filename = basedir + '/test1.jpg'  # 照片文件的路径
+    filename = basedir + '/Result2.png'  # 照片文件的路径
 
     # 构造照片的URL地址，替换成你实际的访问路径
-    photo_url = f'http://127.0.0.1:8080/static/file/test1.jpg'
+    photo_url = f'http://127.0.0.1:8080/static/file/Result2.png'
 
     return jsonify(photo_url)
 
