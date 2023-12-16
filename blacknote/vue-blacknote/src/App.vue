@@ -1,7 +1,9 @@
 <template>
-  <Demo></Demo>
+ 
   <Navbar></Navbar>
-  <section v-if="!begincat" class="index_content">
+  <Christmas></Christmas>
+   <Snow></Snow>
+  <section v-if="!begincat" class="index_content" >
     <div class="function_box" id="choosefile">
       <div class="function_choosefile" style="border-bottom: 0;">
         <input type="hidden" id="id" name="id" value="20170902001">
@@ -13,7 +15,7 @@
               <a class="canvas_delete"><img src="./images/canvas_delete.png" alt="canvas delete" /></a>
             </div>
           </div>
-          <div class="input_box" id="chooseInput" v-show="!showConversionButton">
+          <div class="input_box" id="chooseInput" style="z-index: 1;" v-show="!showConversionButton"  >
             <span><label for="openImage">选择图片</label></span>
             <input type="file" id="openImage" accept="image/*" name="files" @change="handleFileChange" />
           </div>
@@ -43,13 +45,17 @@
 
 <script>
 import Navbar from './components/Navbar.vue';
-import Demo from './components/Demo.vue';
+import Snow from './components/Snow.vue';
+import Christmas from './components/Christmas.vue';
 import axios from 'axios';
+
 
 export default {
   components: {
-    Navbar
-  },
+    Navbar,
+    Christmas,
+    Snow
+},
   data() {
     return {
       showConversionButton: false,

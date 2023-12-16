@@ -1,7 +1,7 @@
 <!-- Navbar.vue -->
 <template>
    
-    <div class="navbar">
+    <div class="navbar" style = "z-index: 1;">
       <div class="content_header" style="clear: both; overflow: hidden;">
         <div class="function_title">
             <img src="../images//function_title_word.svg" alt="CleverPDF Word" style="margin-left:0;" />
@@ -9,11 +9,11 @@
             <h2 class="function_title_promit" id="wtp_promit">2023软件工程作业</h2>
         </div>
         </div>
-      <div class="menu-item" @mouseover="showDescription('用于高光谱分析的网站')" @mouseout="hideDescription">
+      <div style = "z-index: 2;" class="menu-item" @mouseover="showDescription('用于高光谱分析的网站')" @mouseout="hideDescription">
         项目介绍
         <div v-if="showHoverText" class="hover-text">{{ hoverText }}</div>
       </div>
-      <div class="menu-item" @mouseover="showDescription('2023软件工程1组')" @mouseout="hideDescription">
+      <div style = "z-index: 2;"  class="menu-item" @mouseover="showDescription('2023软件工程1组')" @mouseout="hideDescription">
         成员介绍
         <div v-if="showHoverText" class="hover-text">{{ hoverText }}</div>
       </div>
