@@ -1,6 +1,6 @@
 <!--Snow.vue-->
 <template>
-  <div id="main" style="z-index: 1;">
+  <div id="main" style="z-index: -1;">
     <canvas id="canvas" ref="canvas" style="position: fixed; top: 0; width: 100%; height: 100%;"></canvas>
   </div>
 </template>

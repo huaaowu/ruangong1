@@ -15,9 +15,9 @@
               <a class="canvas_delete"><img src="./images/canvas_delete.png" alt="canvas delete" /></a>
             </div>
           </div>
-          <div class="input_box" id="chooseInput" style="z-index: 1;" v-show="!showConversionButton"  >
+          <div class="input_box" id="chooseInput" style="z-index: 3;" v-show="!showConversionButton"  >
             <span><label for="openImage">选择图片</label></span>
-            <input type="file" id="openImage" accept="image/*" name="files" @change="handleFileChange" />
+            <input type="file" id="openImage"  name="files" @change="handleFileChange" />
           </div>
           <div class="input_box" id="startConversion" v-show="showConversionButton">
             <button type="button" class="input_box_conversion" @click="changeImage">{{ ShowTitle }}</button>
@@ -30,10 +30,10 @@
   <div style="display: flex; flex-direction: row;" v-if="begincat">
     <div class="container ">
       <div class="text-style">原图</div>
-      <img :src="imageURLY" alt="原图" class="image" style="width:100%">
+      <img :src="imageYURL" alt="原图" class="image" style="width:100%">
     </div>
     <div class="container ">
-      <div class="text-style">分类结果</div>
+      <div class="text-style" style="z-index: 3;">分类结果</div>
       <img v-if="!imageURL" src="./images/loading2.gif" alt="正在加载中" class="image" style="width: 100%;">
       <img v-else="imageURL" :src="imageURL" alt="分类结果" class="image" style="width:100%">
       <div v-if="imageURL" class="middle">
@@ -64,6 +64,7 @@ export default {
       ShowTitle: "开始分类",
       imageURLY:null,
       begincat :false,
+      imageYURL :null,
     };
   },
   methods: {
@@ -95,6 +96,7 @@ export default {
       axios.post('http://127.0.0.1:8080/upload', formData)
         .then(response => {
           console.log('文件上传成功:', response.data);
+          this.imageYURL = response.data;
           this.showConversionButton = true;
 
         })
