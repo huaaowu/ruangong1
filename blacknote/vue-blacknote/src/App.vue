@@ -85,7 +85,8 @@ export default {
         // 以 Data URL 格式读取文件
         reader.readAsDataURL(file);
         this.showConversionButton = true
-        this.uploadFile();
+
+        this.uploadFile(file);
       }
     },
     //上传文件                                                                    
@@ -98,7 +99,6 @@ export default {
           console.log('文件上传成功:', response.data);
           this.imageYURL = response.data;
           this.showConversionButton = true;
-
         })
         .catch(error => {
           console.error('上传文件时发生错误:', error);
