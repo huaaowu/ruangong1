@@ -1,7 +1,6 @@
 <template>
  
   <Navbar></Navbar>
-  <Christmas></Christmas>
    <Snow></Snow>
   <section v-if="!begincat" class="index_content" >
     <div class="function_box" id="choosefile">
@@ -25,6 +24,9 @@
         </div>
       </div>
     </div>
+    <Down></Down>
+    <!--一些标识信息-->
+    
   </section>
   <!-- 显示分类之后的图片 -->
   <div style="display: flex; flex-direction: row;" v-if="begincat">
@@ -46,15 +48,15 @@
 <script>
 import Navbar from './components/Navbar.vue';
 import Snow from './components/Snow.vue';
-import Christmas from './components/Christmas.vue';
+import Down from './components/Down.vue';
 import axios from 'axios';
 
 
 export default {
   components: {
     Navbar,
-    Christmas,
-    Snow
+    Snow,
+    Down
 },
   data() {
     return {

@@ -1,10 +1,10 @@
 <!-- Navbar.vue -->
 <template>
    
-    <div class="navbar" style = "z-index: 1;">
+    <div class="navbar" style = "z-index: 0;">
       <div class="content_header" style="clear: both; overflow: hidden;">
         <div class="function_title">
-            <img src="../images//function_title_word.svg" alt="CleverPDF Word" style="margin-left:0;" />
+            <img src="../images/icon.png" alt="CleverPDF Word" style="margin-left:0; width: 30px;height: 30px;" />
             <h1 style="margin-left:10px;" id="wtp_title">高光谱图像分析</h1>
             <h2 class="function_title_promit" id="wtp_promit">2023软件工程作业</h2>
         </div>
