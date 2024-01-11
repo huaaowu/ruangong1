@@ -62,11 +62,7 @@ def change():
 
     X = io.loadmat('D:/Software/data/Indian_pines_corrected.mat')['indian_pines_corrected']
     y = io.loadmat('D:/Software/data/Indian_pines_gt.mat')['indian_pines_gt']
-    # source1='/content/Indian_pines_corrected.mat.2'
-    # source2='/content/Indian_pines_gt.mat.2'
-    # result_path = 'content/' + ''.join(str(X).split('.')[:-1]) + '.png'
     result_path = "D:/Software/data/static/file/Result2.png"
-    # result = test_map(source1,source2,result_path)
     pred(X, y, result_path)
 
     print("-----------dwq")
