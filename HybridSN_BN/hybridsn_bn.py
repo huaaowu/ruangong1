@@ -7,9 +7,8 @@ Original file is located at
     https://colab.research.google.com/drive/1FS6LwS8SMLs4g4_l4yoQ-StpgCEC5PaI
 """
 
-! wget http://www.ehu.eus/ccwintco/uploads/6/67/Indian_pines_corrected.mat
-! wget http://www.ehu.eus/ccwintco/uploads/c/c4/Indian_pines_gt.mat
-! pip install spectral
+
+pip install spectral
 
 import numpy as np
 import matplotlib.pyplot as plt
